@@ -1,7 +1,9 @@
 package com.atguigu.crowd.test;
 
 import com.atguigu.crowd.entity.Admin;
+import com.atguigu.crowd.entity.Role;
 import com.atguigu.crowd.mapper.AdminMapper;
+import com.atguigu.crowd.mapper.RoleMapper;
 import com.atguigu.crowd.service.api.AdminService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,6 +30,8 @@ public class CrowdTest {
     private AdminMapper adminMapper;
     @Autowired
     private AdminService adminService;
+    @Autowired
+    private RoleMapper roleMapper;
 
 
     /**
@@ -76,5 +80,16 @@ public class CrowdTest {
         Admin admin = new Admin(null, "Tom", "123456", "汤姆", "tom@qq.com", null);
         adminService.saveAdmin(admin);
 
+    }
+
+
+    /**
+     * Role表的插入测试
+     */
+    @Test
+    public void testSaveRole() {
+        for (int i = 0; i < 235; i++) {
+            roleMapper.insert(new Role(null, "role-" + (i + 1)));
+        }
     }
 }

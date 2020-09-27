@@ -5,6 +5,9 @@ import com.atguigu.crowd.entity.RoleExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
+/**
+ * @author Dec
+ */
 public interface RoleMapper {
     int countByExample(RoleExample example);
 
@@ -27,4 +30,6 @@ public interface RoleMapper {
     int updateByPrimaryKeySelective(Role record);
 
     int updateByPrimaryKey(Role record);
+
+    List<Role> selectRoleByKeyword(String keyword);
 }
