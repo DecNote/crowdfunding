@@ -7,6 +7,9 @@ import com.atguigu.crowd.entity.AdminExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
+/**
+ * @author Dec
+ */
 public interface AdminMapper {
     int countByExample(AdminExample example);
 
