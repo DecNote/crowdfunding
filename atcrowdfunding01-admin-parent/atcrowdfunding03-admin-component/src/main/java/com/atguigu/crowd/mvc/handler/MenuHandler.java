@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import com.atguigu.crowd.util.ResultEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
@@ -18,6 +19,29 @@ public class MenuHandler {
     @Autowired
     private MenuService menuService;
 
+
+    @ResponseBody
+    @RequestMapping("/menu/remove.json")
+    public ResultEntity<String> removeMenu(@RequestParam("id") Integer id){
+        menuService.removeMenu(id);
+        return ResultEntity.successWithoutData();
+    }
+
+
+    @ResponseBody
+    @RequestMapping("/menu/update.json")
+    public ResultEntity<String> updateMenu(Menu menu){
+        menuService.updateMenu(menu);
+        return ResultEntity.successWithoutData();
+    }
+
+
+    @ResponseBody
+    @RequestMapping("/menu/save.json")
+    public ResultEntity<String> saveMenu(Menu menu){
+        menuService.saveMenu(menu);
+        return ResultEntity.successWithoutData();
+    }
 
 
 
