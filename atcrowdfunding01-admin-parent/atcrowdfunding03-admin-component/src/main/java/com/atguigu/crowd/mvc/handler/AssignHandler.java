@@ -4,15 +4,18 @@ import com.atguigu.crowd.entity.Role;
 import com.atguigu.crowd.service.api.AdminService;
 import com.atguigu.crowd.service.api.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
 /**
  * @author Dec
  */
+@Controller
 public class AssignHandler {
 
     @Autowired
@@ -20,6 +23,7 @@ public class AssignHandler {
 
     @Autowired
     private RoleService roleService;
+
 
 
     @RequestMapping("/assign/to/assign/page.html")
@@ -33,6 +37,9 @@ public class AssignHandler {
         // 3. 存入模型(本质上：request.setAttribute("attrName", attrValue))
         modelMap.addAttribute("assignedRoleList", assignedRoleList);
         modelMap.addAttribute("unAssignedRoleList", unAssignedRoleList);
+
+        System.out.println(unAssignedRoleList);
+        System.out.println(assignedRoleList);
         return "assign-role";
     }
 }
