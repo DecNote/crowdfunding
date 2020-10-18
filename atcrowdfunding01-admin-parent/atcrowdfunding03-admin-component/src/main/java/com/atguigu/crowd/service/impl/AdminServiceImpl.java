@@ -3,6 +3,7 @@ package com.atguigu.crowd.service.impl;
 import com.atguigu.crowd.constant.CrowdConstant;
 import com.atguigu.crowd.entity.Admin;
 import com.atguigu.crowd.entity.AdminExample;
+import com.atguigu.crowd.entity.Role;
 import com.atguigu.crowd.exception.LoginAcctAlreadyInUseException;
 import com.atguigu.crowd.exception.LoginAcctAlreadyInUseForUpdateException;
 import com.atguigu.crowd.exception.LoginFailedException;
@@ -41,9 +42,17 @@ public class AdminServiceImpl implements AdminService {
         }
     }
 
+    @Override
+    public void saveAdminRoleRelationship(Integer adminId, List<Role> roleIdList) {
+        // 1. 根据adminId删除旧的关联关系数据
+        adminMapper.deleteOldRelationship(adminId);
 
+        // 2. 根据roleIdList和adminId保持新的关联关系
+        if (roleIdList != null && roleIdList.size() > 0) {
+            adminMapper.insertNewRelationship(adminId, roleIdList);
+        }
 
-
+    }
 
 
     @Override

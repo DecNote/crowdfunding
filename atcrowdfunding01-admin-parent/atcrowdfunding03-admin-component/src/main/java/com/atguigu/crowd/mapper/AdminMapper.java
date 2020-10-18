@@ -5,6 +5,8 @@ package com.atguigu.crowd.mapper;
 import com.atguigu.crowd.entity.Admin;
 import com.atguigu.crowd.entity.AdminExample;
 import java.util.List;
+
+import com.atguigu.crowd.entity.Role;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -36,5 +38,7 @@ public interface AdminMapper {
     List<Admin> selectAdminByKeyword(String keyword);
 
 
+    void deleteOldRelationship(Integer adminId);
 
+    void insertNewRelationship(@Param("adminId") Integer adminId, @Param("roleIdList") List<Role> roleIdList);
 }

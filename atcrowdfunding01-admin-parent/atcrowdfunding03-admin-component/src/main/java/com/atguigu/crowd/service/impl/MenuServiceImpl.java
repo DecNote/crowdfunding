@@ -14,7 +14,6 @@ public class MenuServiceImpl implements MenuService {
     @Autowired
     private MenuMapper menuMapper;
 
-
     @Override
     public List<Menu> getAll() {
         return menuMapper.selectByExample(new MenuExample());
