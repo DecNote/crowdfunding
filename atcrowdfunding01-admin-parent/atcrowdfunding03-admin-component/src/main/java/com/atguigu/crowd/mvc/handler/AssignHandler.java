@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sun.rmi.server.InactiveGroupException;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Dec
@@ -31,6 +31,15 @@ public class AssignHandler {
 
     @Autowired
     private AuthService authService;
+
+
+    @ResponseBody
+    @RequestMapping("/assign/do/role/assign/auth.json")
+    public ResultEntity<String> saveRoleAuthRelationship(@RequestBody Map<String, List<Integer>> map) {
+        authService.saveRoleAuthRelationship(map);
+        return ResultEntity.successWithoutData();
+    }
+
 
 
 
