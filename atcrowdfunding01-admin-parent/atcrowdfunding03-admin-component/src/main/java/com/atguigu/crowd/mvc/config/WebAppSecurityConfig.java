@@ -69,7 +69,13 @@ public class WebAppSecurityConfig extends WebSecurityConfigurerAdapter {
                 // 指定登录成功后默认前往的地址
                 .defaultSuccessUrl("/admin/to/main/page.html")
                 .usernameParameter("loginAcct")
-                .passwordParameter("userPswd");
+                .passwordParameter("userPswd")
+
+                // 开启退出登录功能
+                .and()
+                .logout()
+                .logoutUrl("/security/do/logout.html")
+                .logoutSuccessUrl("admin/to/login/page.html");
     }
 
 }
