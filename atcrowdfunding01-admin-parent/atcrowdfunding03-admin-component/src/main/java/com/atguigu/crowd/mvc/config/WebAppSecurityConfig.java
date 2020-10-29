@@ -1,10 +1,14 @@
 package com.atguigu.crowd.mvc.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
  * @author Dec
@@ -17,11 +21,30 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 public class WebAppSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    private UserDetailsService userDetailsService;
+
+/*
+    @Bean
+    public BCryptPasswordEncoder getPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+*/
+    @Autowired
+    public BCryptPasswordEncoder passwordEncoder;
+
 
     @Override
     protected void configure(AuthenticationManagerBuilder builder) throws Exception {
         // 临时使用的内存版登录的模式（测试代码）
-        builder.inMemoryAuthentication().withUser("tom").password("123456").roles("ADMIN");
+//        builder.inMemoryAuthentication().withUser("tom").password("123456").roles("ADMIN");
+
+
+        // 正式功能中使用基于数据库的认证
+        builder
+                .userDetailsService(userDetailsService)
+                // 带盐值的加密
+                .passwordEncoder(passwordEncoder);
     }
 
     @Override
