@@ -98,7 +98,6 @@ public class WebAppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout()
                 .logoutUrl("/security/do/logout.html")
-                .logoutSuccessUrl("admin/to/login/page.html");
+                .logoutSuccessUrl("/admin/to/login/page.html");
     }
-
 }
