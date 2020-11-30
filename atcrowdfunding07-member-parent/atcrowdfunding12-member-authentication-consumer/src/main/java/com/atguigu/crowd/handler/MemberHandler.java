@@ -31,7 +31,6 @@ public class MemberHandler {
     public ResultEntity<String> sendMessage(@RequestParam("phoneNum") String phoneNum) {
 
 
-
         ResultEntity<String> sendMessageResultEntity = CrowdUtil.sendCodeByShortMessage(
                 shortMessageProperties.getHost(),
                 shortMessageProperties.getPath(),
@@ -41,7 +40,7 @@ public class MemberHandler {
                 shortMessageProperties.getTemplateId());
 
         // 2.判断短信发送结果
-        if(ResultEntity.SUCCESS.equals(sendMessageResultEntity.getResult())) {
+        if (ResultEntity.SUCCESS.equals(sendMessageResultEntity.getResult())) {
             // 3.如果发送成功，则将验证码存入Redis
             // ①从上一步操作的结果中获取随机生成的验证码
             String code = sendMessageResultEntity.getData();
@@ -53,22 +52,15 @@ public class MemberHandler {
             ResultEntity<String> saveCodeResultEntity = redisRemoteService.setRedisKeyValueRemoteWithTimeout(key, code, 15, TimeUnit.MINUTES);
 
             // ④判断结果
-            if(ResultEntity.SUCCESS.equals(saveCodeResultEntity.getResult())) {
+            if (ResultEntity.SUCCESS.equals(saveCodeResultEntity.getResult())) {
 
                 return ResultEntity.successWithoutData();
-            }else {
+            } else {
                 return saveCodeResultEntity;
             }
         } else {
             return sendMessageResultEntity;
         }
-
-
-
-
-
-
-
 
 
     }
