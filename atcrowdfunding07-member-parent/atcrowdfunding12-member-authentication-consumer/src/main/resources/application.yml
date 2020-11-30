@@ -17,3 +17,9 @@ short:
     method: POST
     app-code: 4785a45c90d844efbcd93bd86ada3926
     templateId: M09DD535F4    # templateId
+
+
+ribbon:
+  ReadTimeout: 10000
+  ConnectTimeout: 10000
+
