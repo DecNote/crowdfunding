@@ -1,16 +1,82 @@
 package com.atguigu.crowd.util;
 
+import com.aliyun.api.gateway.demo.util.HttpUtils;
 import com.atguigu.crowd.constant.CrowdConstant;
+import org.apache.http.HttpResponse;
+import org.apache.http.StatusLine;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
+/**
+ * @author Dec
+ */
 public class CrowdUtil {
+
+
+    /**
+     * 给远程第三方短信接口发送请求把验证码发送到用户手机上
+     * <p>
+     * 成功：返回验证码
+     * 失败：返回失败消息
+     * 状态码: 200 正常；400 URL无效；401 appCode错误； 403 次数用完； 500 API网管错误
+     */
+    public static ResultEntity<String> sendCodeByShortMessage(String host, String path, String method, String appcode, String phone, String templateId) {
+
+        // 生成验证码
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < 4; i++) {
+            int random = (int) (Math.random() * 10);
+            builder.append(random);
+        }
+        String code = builder.toString();
+
+
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Authorization", "APPCODE " + appcode);
+        Map<String, String> queries = new HashMap<>();
+        queries.put("receive", phone);
+        queries.put("tag", code);
+        queries.put("templateId", templateId);
+
+
+        Map<String, String> bodys = new HashMap<>();
+
+
+        try {
+            HttpResponse response = HttpUtils.doPost(host, path, method, headers, queries, bodys);
+
+            StatusLine statusLine = response.getStatusLine();
+
+            // 状态码: 200 正常；400 URL无效；401 appCode错误； 403 次数用完； 500 API网管错误
+            int statusCode = statusLine.getStatusCode();
+
+            String reasonPhrase = statusLine.getReasonPhrase();
+
+            if (statusCode == 200) {
+
+                // 操作成功，把生成的验证码返回
+                return ResultEntity.successWithData(code);
+            }
+
+            return ResultEntity.failed(reasonPhrase);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultEntity.failed(e.getMessage());
+        }
+
+    }
+
 
     /**
      * 对明文字符串进行MD5加密
+     *
      * @param source 传入的明文字符串
      * @return 加密结果
      */
