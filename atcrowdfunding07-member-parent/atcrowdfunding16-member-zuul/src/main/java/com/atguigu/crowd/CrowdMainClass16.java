@@ -1,19 +1,16 @@
 package com.atguigu.crowd;
 
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 
 /**
  * @author Dec
  */
-
-
-
+@EnableZuulProxy
 @SpringBootApplication
-@MapperScan("com.atguigu.crowd.mapper")
-public class CrowdMainClass {
+public class CrowdMainClass16 {
     public static void main(String[] args) {
-        SpringApplication.run(CrowdMainClass.class, args);
+        SpringApplication.run(CrowdMainClass16.class, args);
     }
 }

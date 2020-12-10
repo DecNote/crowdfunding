@@ -5,6 +5,7 @@ import com.atguigu.crowd.api.RedisRemoteService;
 import com.atguigu.crowd.config.ShortMessageProperties;
 import com.atguigu.crowd.constant.CrowdConstant;
 import com.atguigu.crowd.entity.po.MemberPO;
+import com.atguigu.crowd.entity.vo.MemberLoginVO;
 import com.atguigu.crowd.entity.vo.MemberVO;
 import com.atguigu.crowd.util.CrowdUtil;
 import com.atguigu.crowd.util.ResultEntity;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -36,6 +38,54 @@ public class MemberHandler {
 
     @Autowired
     private MySQLRemoteService mySQLRemoteService;
+
+
+
+
+    @RequestMapping("/auth/member/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/";
+    }
+
+
+
+
+
+    @RequestMapping("/auth/member/do/login")
+    public String login(
+            @RequestParam("loginacct") String loginacct,
+            @RequestParam("userpswd") String userpswd,
+            ModelMap modelMap,
+            HttpSession session) {
+
+        // 1.调用远程接口根据登录账号查询MemberPO对象
+        ResultEntity<MemberPO> resultEntity = mySQLRemoteService.getMemberPOByLoginAcctRemote(loginacct);
+        if(ResultEntity.FAILED.equals(resultEntity.getResult())) {
+            modelMap.addAttribute(CrowdConstant.ATTR_NAME_MESSAGE, resultEntity.getMessage());
+            return "member-login";
+        }
+
+        MemberPO memberPO = resultEntity.getData();
+        if(memberPO == null) {
+            modelMap.addAttribute(CrowdConstant.ATTR_NAME_MESSAGE, CrowdConstant.MESSAGE_LOGIN_FAILED);
+            return "member-login";
+        }
+
+        // 2.比较密码
+        String userpswdDataBase = memberPO.getUserpswd();
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        boolean matcheResult = passwordEncoder.matches(userpswd, userpswdDataBase);
+        if(!matcheResult) {
+            modelMap.addAttribute(CrowdConstant.ATTR_NAME_MESSAGE, CrowdConstant.MESSAGE_LOGIN_FAILED);
+            return "member-login";
+        }
+
+        // 3.登录成功，创建MemberLoginVO对象存入Session域
+        MemberLoginVO memberLoginVO = new MemberLoginVO(memberPO.getId(), memberPO.getUsername(), memberPO.getEmail());
+        session.setAttribute(CrowdConstant.ATTR_NAME_LOGIN_MEMBER, memberLoginVO);
+        return "redirect:http://www.crowd.com/auth/member/to/center/page"; // http://www.crowd.com
+    }
 
 
 
