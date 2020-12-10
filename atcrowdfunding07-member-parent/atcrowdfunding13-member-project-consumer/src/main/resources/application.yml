@@ -17,10 +17,3 @@ eureka:
     service-url:
       defaultZone: http://localhost:1000/eureka
 
-aliyun:
-  oss:
-    access-key-id: LTAI4GAVYNaiTHt3faFeyEML
-    access-key-secret: xYriLsuAiOlNWW7rZUTVIK6UWiTYKi
-    bucket-domain: http://atguigu000.oss-cn-shanghai.aliyuncs.com  #http://atguigu190830.oss-cn-shenzhen.aliyuncs.com
-    bucket-name: atguigu000
-    end-point: http://oss-cn-shanghai.aliyuncs.com #http://oss-cn-shenzhen.aliyuncs.com
