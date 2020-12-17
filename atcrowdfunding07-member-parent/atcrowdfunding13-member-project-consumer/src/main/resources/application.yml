@@ -1,6 +1,8 @@
 server:
   port: 5000
 spring:
+  profiles:
+    include: aliyun
   application:
     name: atguigu-crowd-project
   thymeleaf:

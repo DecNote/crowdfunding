@@ -44,3 +44,7 @@ build/
 # system ignore
 .DS_Store
 Thumbs.db
+
+
+# 阿里云配置文件，不做commit
+atcrowdfunding07-member-parent/atcrowdfunding13-member-project-consumer/src/main/resources/application-aliyun.yml
