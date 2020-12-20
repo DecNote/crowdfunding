@@ -22,3 +22,6 @@ zuul:
     crowd-project:
       service-id: atguigu-crowd-project
       path: /project/**  # atguigu-crowd-auth的path已经为/，不能重复
+    crowd-order:
+      service-id: atguigu-crowd-order
+      path: /order/**
